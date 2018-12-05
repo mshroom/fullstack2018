@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 const Otsikko = (props) => {
     return (
         <div>
-          <h1>{props.nimi}</h1>
+          <h1>{props.kurssi}</h1>
         </div>
     )
 }
@@ -12,7 +12,7 @@ const Otsikko = (props) => {
 const Osa = (props) => {
     return (
         <div>
-          <p>{props.nimi} {props.tehtavia}</p>
+          <p>{props.osa.nimi} {props.osa.tehtavia}</p>
         </div>
     )
 }
@@ -20,9 +20,9 @@ const Osa = (props) => {
 const Sisalto = (props) => {
     return (
         <div>
-          <Osa nimi={props.osa1} tehtavia={props.tehtavia1} />
-          <Osa nimi={props.osa2} tehtavia={props.tehtavia2} />
-          <Osa nimi={props.osa3} tehtavia={props.tehtavia3} />
+          <Osa osa={props.osat[0]} />
+          <Osa osa={props.osat[1]} />
+          <Osa osa={props.osat[2]} />
         </div>
     )
 }
@@ -30,25 +30,33 @@ const Sisalto = (props) => {
 const Yhteensa = (props) => {
     return (
         <div>
-          <p>yhteensä {props.tehtavia1 + props.tehtavia2 + props.tehtavia3} tehtävää</p>
+          <p>yhteensä {props.osat[0].tehtavia + props.osat[1].tehtavia + props.osat[2].tehtavia} tehtävää</p>
         </div>
     )
 }
 
 const App = () => {
-  const otsikko = 'Half Stack -sovelluskehitys'
-  const osa1 = 'Reactin perusteet'
-  const tehtavia1 = 10
-  const osa2 = 'Tiedonvälitys propseilla'
-  const tehtavia2 = 7
-  const osa3 = 'Komponenttien tila'
-  const tehtavia3 = 14
+  const kurssi = 'Half Stack -sovelluskehitys'
+  const osat = [
+    {
+      nimi: 'Reactin perusteet',
+      tehtavia: 10
+    },
+    {
+      nimi: 'Tiedonvälitys propseilla',
+      tehtavia: 7
+    },
+    {
+      nimi: 'Komponenttien tila',
+      tehtavia: 14
+    }
+  ]
 
   return (
     <div>
-      <Otsikko nimi={otsikko} />
-      <Sisalto osa1={osa1} tehtavia1={tehtavia1} osa2={osa2} tehtavia2={tehtavia2} osa3={osa3} tehtavia3={tehtavia3} />
-      <Yhteensa tehtavia1={tehtavia1} tehtavia2={tehtavia2} tehtavia3={tehtavia3} />
+      <Otsikko kurssi={kurssi} />
+      <Sisalto osat={osat} />
+      <Yhteensa osat={osat} />
     </div>
   )
 }
