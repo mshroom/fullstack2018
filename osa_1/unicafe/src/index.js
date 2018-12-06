@@ -28,6 +28,14 @@ function positiivisia(hyva, huono, neutraali) {
 }
 
 const Statistics = (props) => {
+  if (props.hyva + props.neutraali + props.huono === 0) {
+    return (
+      <div>
+        <h1>statistiikka</h1>
+        <p>ei yhtään palautetta annettu</p>
+      </div>
+    )
+  }
   return (
     <div>
       <h1>statistiikka</h1>
