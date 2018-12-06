@@ -7,9 +7,14 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Statistic = ({ name, value }) => (
-  <p>{name} {value}</p>
-)
+const Statistic = ({ name, value }) => {
+  return (
+    <tr>
+      <td>{name}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
 
 function keskiarvo(hyva, huono, neutraali) {
   let sum = hyva + neutraali + huono
@@ -39,22 +44,25 @@ const Statistics = (props) => {
   return (
     <div>
       <h1>statistiikka</h1>
-      <Statistic
-          name="hyvä" value={props.hyva}
-      />
-        <Statistic
-          name="neutraali" value={props.neutraali}
-        />
-        <Statistic
-          name="huono" value={props.huono}
-        />    
-        <Statistic
-          name="keskiarvo" value={keskiarvo(props.hyva, props.huono, props.neutraali)}
-
-        />       
-        <Statistic
-          name="positiivisia" value={positiivisia(props.hyva, props.huono, props.neutraali)}
-        />
+      <table>
+        <tbody>          
+            <Statistic
+                name="hyvä" value={props.hyva}
+            />         
+            <Statistic
+              name="neutraali" value={props.neutraali}
+            />          
+            <Statistic
+              name="huono" value={props.huono}
+            />           
+            <Statistic
+              name="keskiarvo" value={keskiarvo(props.hyva, props.huono, props.neutraali)}
+            />               
+            <Statistic
+              name="positiivisia" value={positiivisia(props.hyva, props.huono, props.neutraali)}
+            />          
+        </tbody>
+      </table>
     </div>
   )
 }
