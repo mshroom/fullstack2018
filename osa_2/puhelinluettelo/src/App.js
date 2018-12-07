@@ -6,6 +6,8 @@ const Person = (props) => {
       <tr>
           <td>{props.person.name}</td>
           <td>{props.person.number}</td>
+          <td>{props.person.id}</td>
+          <td><button onClick={props.deletePerson}>poista</button></td>
       </tr>     
     )
 }
@@ -15,7 +17,7 @@ const PersonList = (props) => {
         <div>
           <table>
             <tbody>              
-                 {props.persons.map(person=><Person key={person.name} person={person} />)}                       
+                 {props.persons.map(person=><Person key={person.name} person={person} deletePerson={props.deletePerson(person.id)}/>)}                       
             </tbody>
           </table>
         </div>
@@ -76,7 +78,7 @@ class App extends React.Component {
       personService
         .create(personObject)
         .then(response => {
-            const persons = this.state.persons.concat(personObject)
+            const persons = this.state.persons.concat(response.data)
             this.setState({
                 persons,
                 newName: '',
@@ -84,6 +86,23 @@ class App extends React.Component {
             })
         })
 
+  }
+
+  deletePerson = (id) => {      
+        return () => {
+            if (window.confirm("poistetaanko?")) {                
+                personService
+              .remove(id)
+              .then(response => {              
+                  const persons2 = this.state.persons.filter(function(value, index, arr){
+                  return value.id !== id
+                  })
+                  this.setState({
+                  persons: persons2
+                  })
+              })
+            }            
+        }  
   }
 
   handleNewName = (event) => {
@@ -100,7 +119,7 @@ class App extends React.Component {
         <h2>Puhelinluettelo</h2>
         <PersonForm state={this.state} addPerson={this.addPerson.bind(this)} handleNewName={this.handleNewName.bind(this)} handleNewNumber={this.handleNewPhone.bind(this)} />
         <h2>Numerot</h2>
-        <PersonList persons={this.state.persons}/>
+        <PersonList persons={this.state.persons} deletePerson={this.deletePerson.bind(this)}/>
       </div>
     )
   }
