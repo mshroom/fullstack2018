@@ -5,7 +5,7 @@ const Person = (props) => {
     return (
       <tr>
           <td>{props.person.name}</td>
-          <td>{props.person.phone}</td>
+          <td>{props.person.number}</td>
       </tr>     
     )
 }
@@ -33,8 +33,8 @@ const PersonForm = (props) => {
         </div>
         <div>
             numero: <input
-            value={props.state.newPhone}
-            onChange={props.handleNewPhone}
+            value={props.state.newNumber}
+            onChange={props.handleNewNumber}
             />
         </div>
         <div>
@@ -50,7 +50,7 @@ class App extends React.Component {
     this.state = {
       persons: [],
       newName: '',
-      newPhone: ''
+      newNumber: ''
     }
   }
 
@@ -68,19 +68,24 @@ class App extends React.Component {
       event.preventDefault()
       const personObject = {
           name: this.state.newName,
-          phone: this.state.newPhone
+          number: this.state.newNumber
       }
       const names = this.state.persons.map(person => person.name)
       if (names.includes(personObject.name)) {          
         return
       }     
 
-      const persons = this.state.persons.concat(personObject)
-      this.setState({
-          persons,
-          newName: '',
-          newPhone: ''
-      })
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+            const persons = this.state.persons.concat(personObject)
+            this.setState({
+                persons,
+                newName: '',
+                newNumber: ''
+            })
+        })
+
   }
 
   handleNewName = (event) => {
@@ -88,14 +93,14 @@ class App extends React.Component {
   }
 
   handleNewPhone = (event) => {
-      this.setState({ newPhone: event.target.value })
+      this.setState({ newNumber: event.target.value })
   }
 
   render() {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <PersonForm state={this.state} addPerson={this.addPerson.bind(this)} handleNewName={this.handleNewName.bind(this)} handleNewPhone={this.handleNewPhone.bind(this)} />
+        <PersonForm state={this.state} addPerson={this.addPerson.bind(this)} handleNewName={this.handleNewName.bind(this)} handleNewNumber={this.handleNewPhone.bind(this)} />
         <h2>Numerot</h2>
         <PersonList persons={this.state.persons}/>
       </div>
