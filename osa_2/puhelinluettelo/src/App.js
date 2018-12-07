@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios'
+import personService from './services/persons'
 
 const Person = (props) => {
     return (
@@ -55,11 +55,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-      console.log('did mount')
-      axios
-        .get('http://localhost:3001/persons')
+      personService
+        .getAll()
         .then(response => {
-            console.log('promise fulfilled')
             this.setState({ persons: response.data })
         })
   }
@@ -75,8 +73,8 @@ class App extends React.Component {
         return
       }     
 
-      axios
-        .post('http://localhost:3001/persons', personObject)
+      personService
+        .create(personObject)
         .then(response => {
             const persons = this.state.persons.concat(personObject)
             this.setState({
