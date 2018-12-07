@@ -1,5 +1,6 @@
 import React from 'react';
 import personService from './services/persons'
+import './index.css'
 
 const Person = (props) => {
     return (
@@ -46,13 +47,24 @@ const PersonForm = (props) => {
     )
 }
 
+
+const Notification = ({ message}) => {
+    if (message === null) {
+        return null
+    }
+    return (
+        <div className="message">{message}</div>
+    )
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       persons: [],
       newName: '',
-      newNumber: ''
+      newNumber: '',
+      message: null
     }
   }
 
@@ -82,8 +94,12 @@ class App extends React.Component {
             this.setState({
                 persons,
                 newName: '',
-                newNumber: ''
+                newNumber: '',
+                message: 'lisättiin ' + personObject.name
             })
+            setTimeout(() => {
+                this.setState({message: null})
+            }, 5000)
         })
 
   }
@@ -98,8 +114,12 @@ class App extends React.Component {
                   return value.id !== id
                   })
                   this.setState({
-                  persons: persons2
+                  persons: persons2,
+                  message: 'yhteystieto poistettu'
                   })
+                  setTimeout(() => {
+                    this.setState({message: null})
+                }, 5000)
               })
             }            
         }  
@@ -117,6 +137,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification message={this.state.message}/>
         <PersonForm state={this.state} addPerson={this.addPerson.bind(this)} handleNewName={this.handleNewName.bind(this)} handleNewNumber={this.handleNewPhone.bind(this)} />
         <h2>Numerot</h2>
         <PersonList persons={this.state.persons} deletePerson={this.deletePerson.bind(this)}/>
