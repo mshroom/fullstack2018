@@ -18,13 +18,16 @@ class App extends React.Component {
       const personObject = {
           name: this.state.newName
       }
-      const persons = this.state.persons.concat(personObject)
+      const names = this.state.persons.map(person => person.name)
+      if (names.includes(personObject.name)) {          
+        return
+      }     
 
+      const persons = this.state.persons.concat(personObject)
       this.setState({
           persons,
           newName: ''
       })
-      console.log('nappia painettu')
   }
 
   handleNewName = (event) => {
