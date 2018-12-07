@@ -9,6 +9,40 @@ const Person = (props) => {
     )
 }
 
+const PersonList = (props) => {
+    return (
+        <div>
+          <table>
+            <tbody>              
+                 {props.persons.map(person=><Person key={person.name} person={person} />)}                       
+            </tbody>
+          </table>
+        </div>
+    )
+}
+
+const PersonForm = (props) => {
+    return (
+      <form onSubmit={props.addPerson}>
+        <div>
+          nimi: <input 
+          value={props.state.newName}
+          onChange={props.handleNewName}
+          />
+        </div>
+        <div>
+            numero: <input
+            value={props.state.newPhone}
+            onChange={props.handleNewPhone}
+            />
+        </div>
+        <div>
+          <button type="submit">lisää</button>
+        </div>
+      </form>
+    )
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -52,31 +86,9 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <form onSubmit={this.addPerson}>
-          <div>
-            nimi: <input 
-            value={this.state.newName}
-            onChange={this.handleNewName}
-            />
-          </div>
-          <div>
-              numero: <input
-              value={this.state.newPhone}
-              onChange={this.handleNewPhone}
-              />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
+        <PersonForm state={this.state} addPerson={this.addPerson.bind(this)} handleNewName={this.handleNewName.bind(this)} handleNewPhone={this.handleNewPhone.bind(this)} />
         <h2>Numerot</h2>
-        <div>
-          <table>
-            <tbody>              
-                 {this.state.persons.map(person=><Person key={person.name} person={person} />)}                       
-            </tbody>
-          </table>
-        </div>
+        <PersonList persons={this.state.persons}/>
       </div>
     )
   }
