@@ -7,7 +7,6 @@ const Person = (props) => {
       <tr>
           <td>{props.person.name}</td>
           <td>{props.person.number}</td>
-          <td>{props.person.id}</td>
           <td><button onClick={props.deletePerson}>poista</button></td>
       </tr>     
     )
